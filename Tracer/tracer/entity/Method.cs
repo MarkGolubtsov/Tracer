@@ -27,7 +27,7 @@ namespace Tracer.tracer.entity
 
         private string clazz { get; set; }
         private string name { get; set; }
-        private Stopwatch stopwatch { get; set; }
+        private Stopwatch stopwatch { get;}
         private ConcurrentStack<Method> methods { get; set; }
 
         public void addMethod(Method method)
