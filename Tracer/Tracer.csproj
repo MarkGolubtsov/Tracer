@@ -7,7 +7,6 @@
 
     <ItemGroup>
       <Folder Include="dao" />
-      <Folder Include="tracer\entity" />
       <Folder Include="tracer\impl" />
     </ItemGroup>
 
