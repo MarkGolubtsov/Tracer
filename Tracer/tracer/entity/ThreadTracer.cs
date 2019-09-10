@@ -10,12 +10,12 @@ namespace Tracer.tracer.entity
     public class ThreadTracer {
         public ThreadTracer(int id) {
             this.id = id;
-            methods = new ConcurrentStack<Method>();
+            methods = new Method[]{};
         }
 
         private int id { get; set; }
         
-        private ConcurrentStack<Method> methods;
+        private Method[] methods;
         
         public long time {
             get
@@ -29,9 +29,9 @@ namespace Tracer.tracer.entity
             }
         }
 
-         public void AddMethod(Method method) {
-            methods.Push(method);
-        }
+         public void AddMethods(Method[] methods) {
+             this.methods = methods;
+         }
          
     }
 }

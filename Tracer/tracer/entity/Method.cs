@@ -11,16 +11,11 @@ namespace Tracer.tracer.entity
         public Method(string name,string methodClass)
         {
             this.methodClass = methodClass;
+            stopwatch=new Stopwatch();
             this.name = name;
             methods = new ConcurrentStack<Method>();
         }
-
-        private long Time;
-        public long time
-        {
-            get { return Time; }
-            set { Time = time; }
-        }
+        public long time { get; set; }
 
         public void  balanceTime(long delete)
         {
@@ -42,8 +37,9 @@ namespace Tracer.tracer.entity
         }
         public void stopTimer()
         {
-            time = stopwatch.ElapsedMilliseconds;
             stopwatch.Stop();
+            time = stopwatch.ElapsedMilliseconds;
+           
         }
     }
 }

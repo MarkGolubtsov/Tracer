@@ -1,23 +1,24 @@
-﻿using System;
+﻿
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Reflection;
 using System.Threading;
+using Tracer.tracer.entity;
 
 namespace Tracer
 {
     class Program
     {
-
-
+        
         static void Main(string[] args)
         {
-            Stack<int> stack = new Stack<int>();
-            
-            Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-        Thread.Sleep(100 );
-        Console.WriteLine(stopwatch.ElapsedMilliseconds);
+          tracer.impl.Tracer tracer = new tracer.impl.Tracer();
+          test test1 = new test(tracer);
+          test1.main();
+          
+          List<ThreadTracer> res=test1.Tracer.test();
+          Console.WriteLine(res[1].time);
         }
     }
 }
