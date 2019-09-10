@@ -13,7 +13,7 @@ namespace Tracer.tracer.entity
             methods = new Method[]{};
         }
 
-        private int id { get; set; }
+       public int id { get; set; }
         
         private Method[] methods;
         
@@ -29,6 +29,19 @@ namespace Tracer.tracer.entity
             }
         }
 
+        public ThreadTracer clone()
+        {
+            ThreadTracer threadTracer = new ThreadTracer(this.id);
+            Method[] clonedMethods= new Method[methods.Length];
+            int i=0;
+            foreach (var threadMethod in this.methods)
+            {
+                clonedMethods[i] = threadMethod.getMethods();
+                i++;
+            }
+            threadTracer.AddMethods(clonedMethods);
+            return threadTracer;
+        }
          public void AddMethods(Method[] methods) {
              this.methods = methods;
          }

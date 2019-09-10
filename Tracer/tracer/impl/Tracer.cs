@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
@@ -58,49 +59,51 @@ namespace Tracer.tracer.impl
             Stopwatch start = new Stopwatch();
             int id = Thread.CurrentThread.ManagedThreadId; 
             ConcurrentStack<Method> stackRun = runThreads.GetOrAdd(id, new ConcurrentStack<Method>());
-            Method method; 
-            stackRun.TryPop(out method);
+            Method method;
+            if (!stackRun.TryPop(out method))
+            {
+                throw new StopException("You need to start  before you stop!!");
+            }
             method.stopTimer();
             method.balanceTime(start.ElapsedMilliseconds);
             ConcurrentStack<Method> stackStop = stopThreadMethod.GetOrAdd(id, new ConcurrentStack<Method>());
             Method parent;
             if (stackRun.TryPeek(out parent)) {
-                parent.addMethod(method);
-            }
-            else
-            {
+                parent.addMethod(method); 
+            } else {
                 stackStop.Push(method);
             }
             
         }
         
 
-        public ResultTrace GetResult()
-        {
-            throw new System.NotImplementedException();
+        public ResultTrace GetResult() {
+            List<ThreadTracer> resultTracers = getCloneThreadTracers();
+            ResultTrace resultTrace = new ResultTraceByMark();
+            return resultTrace;
         }
         
-        public List<ThreadTracer> test()
+        private List<ThreadTracer> getCloneThreadTracers()
         {
-            if (Thread.CurrentThread.ManagedThreadId != mainThread.ManagedThreadId)
-                throw new Exception("You must get result in main thread");
+            joinAllThread();
+            List<ThreadTracer> clone = new List<ThreadTracer>();
+            ICollection<int> threadsMethod = stopThreadMethod.Keys;
+            foreach (var id in threadsMethod)
+            {
+                ThreadTracer thread = new ThreadTracer(id);
+                ConcurrentStack<Method> methods = stopThreadMethod.GetOrAdd(id, new ConcurrentStack<Method>());
+                thread.AddMethods(methods.ToArray());
+                clone.Add(thread.clone());
+            }
+            return clone;
+        }
+
+        private void joinAllThread()
+        {
             foreach (var t in threadsAll)
             {
                 t.Join();
             }
-            List<ThreadTracer> threads = new List<ThreadTracer>();
-            Console.WriteLine("Key"+stopThreadMethod.Keys);
-            ICollection<int> threadsMethod = stopThreadMethod.Keys;
-            foreach (var id in threadsMethod)
-            {
-                Console.WriteLine("Id"+id);
-                ThreadTracer thread = new ThreadTracer(id);
-                ConcurrentStack<Method> methods = stopThreadMethod.GetOrAdd(id, new ConcurrentStack<Method>());
-                thread.AddMethods(methods.ToArray());
-                threads.Add(thread);
-            }
-
-            return threads;
         }
         
         private  string getClassName(StackFrame stackFrame) {
@@ -109,6 +112,7 @@ namespace Tracer.tracer.impl
                 fullClassName.LastIndexOf(".", StringComparison.Ordinal) - fullClassName.LastIndexOf("\\", StringComparison.Ordinal)-1);
             
         }
+        
         
     }
 }

@@ -4,6 +4,9 @@ namespace Tracer.tracer
 {
     public interface ResultTrace
     {
-        String GetResultLine();
+        void WriteXmlInFile(string nameFile);
+        void WriteXmlInJson(string nameFile)
+        string getResultTraceInJson();
+        string getResultTraceInXml();
     }
 }

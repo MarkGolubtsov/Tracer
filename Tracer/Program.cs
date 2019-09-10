@@ -13,12 +13,6 @@ namespace Tracer
         
         static void Main(string[] args)
         {
-          tracer.impl.Tracer tracer = new tracer.impl.Tracer();
-          test test1 = new test(tracer);
-          test1.main();
-          
-          List<ThreadTracer> res=test1.Tracer.test();
-          Console.WriteLine(res[1].time);
         }
     }
 }

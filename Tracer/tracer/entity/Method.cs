@@ -13,7 +13,7 @@ namespace Tracer.tracer.entity
             this.methodClass = methodClass;
             stopwatch=new Stopwatch();
             this.name = name;
-            methods = new ConcurrentStack<Method>();
+            methods = new List<Method>();
         }
         public long time { get; set; }
 
@@ -29,11 +29,21 @@ namespace Tracer.tracer.entity
         private string methodClass { get; set; }
         private string name { get; set; }
         private Stopwatch stopwatch { get;}
-        private ConcurrentStack<Method> methods { get; set; }
+        private List<Method> methods { get; set; }
 
         public void addMethod(Method method)
         {
-            methods.Push(method);
+            methods.Add(method);
+        }
+
+        public Method getMethods()
+        {
+            Method method = new Method(this.name,this.methodClass);
+            foreach (var innerMethod in this.methods)
+            {
+                method.addMethod(innerMethod.getMethods());
+            }
+            return method;
         }
         public void stopTimer()
         {
