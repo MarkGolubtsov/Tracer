@@ -32,5 +32,6 @@ namespace Tracer.tracer.entity
          public void AddMethod(Method method) {
             methods.Push(method);
         }
+         
     }
 }

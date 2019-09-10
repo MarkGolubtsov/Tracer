@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Tracer.exception;
 
@@ -7,25 +8,30 @@ namespace Tracer.tracer.entity
 {
     public class Method
     {
-        public Method(string name,string clazz)
+        public Method(string name,string methodClass)
         {
-            this.clazz = clazz;
+            this.methodClass = methodClass;
             this.name = name;
             methods = new ConcurrentStack<Method>();
-            stopwatch = new Stopwatch();
         }
 
+        private long Time;
         public long time
         {
-            get {
-                if (stopwatch.IsRunning)
-                {
-                    throw new TimerException("Timer not stopped!");
-                }
-                return stopwatch.ElapsedMilliseconds; }
+            get { return Time; }
+            set { Time = time; }
         }
 
-        private string clazz { get; set; }
+        public void  balanceTime(long delete)
+        {
+            time = time - delete;
+        }
+
+        public void startTimer()
+        {
+            stopwatch.Start();
+        }
+        private string methodClass { get; set; }
         private string name { get; set; }
         private Stopwatch stopwatch { get;}
         private ConcurrentStack<Method> methods { get; set; }
@@ -34,8 +40,9 @@ namespace Tracer.tracer.entity
         {
             methods.Push(method);
         }
-        public void Stop()
+        public void stopTimer()
         {
+            time = stopwatch.ElapsedMilliseconds;
             stopwatch.Stop();
         }
     }

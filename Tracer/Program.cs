@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
@@ -11,12 +12,12 @@ namespace Tracer
 
         static void Main(string[] args)
         {
-           
-            Stopwatch stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            Console.WriteLine(stopwatch.ElapsedTicks);
-            stopwatch.Restart();
-            Console.WriteLine(stopwatch.ElapsedTicks);
-            Console.WriteLine(stopwatch.ElapsedTicks);
+            Stack<int> stack = new Stack<int>();
+            
+            Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+        Thread.Sleep(100 );
+        Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
     }
 }
