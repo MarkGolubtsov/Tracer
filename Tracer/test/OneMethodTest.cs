@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using NUnit.Framework;
-using Prime.Services;
 using Tracer.tracer.entity;
 
 namespace Tracer.tracer.test

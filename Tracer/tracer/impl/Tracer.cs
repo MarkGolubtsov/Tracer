@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
-using System.Reflection;
 using System.Threading;
 using Tracer.exception;
 using Tracer.tracer.entity;
@@ -35,7 +31,6 @@ namespace Tracer.tracer.impl
             stack.Push(method);
             method.StartTimer();
         }
-
         public void StopTrace()
         {
             var start = new Stopwatch();
@@ -54,8 +49,6 @@ namespace Tracer.tracer.impl
                 stackStop.Push(method);
             }
         }
-        
-
         public IResultTrace GetResult() {
             List<ThreadTracer> resultTracers = GetCloneThreadTracers();
             ResultTrace resultTrace = new ResultTrace(resultTracers);
@@ -83,7 +76,5 @@ namespace Tracer.tracer.impl
                 return "";
             }
         }
-        
-        
     }
 }

@@ -5,6 +5,6 @@ namespace Tracer.tracer.serilize
 {
     public interface ISerializeTracerResult
     {
-        string getString(List<ThreadTracer> list);
+        string GetString(List<ThreadTracer> list);
     }
 }

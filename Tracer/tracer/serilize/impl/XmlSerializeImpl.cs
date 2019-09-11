@@ -8,7 +8,7 @@ namespace Tracer.tracer.serilize.impl
     public class XmlSerializeImpl : ISerializeTracerResult
     {
         public  XmlSerializeImpl(){}
-        public string getString(List<ThreadTracer> list)
+        public string GetString(List<ThreadTracer> list)
         {
             StringWriter stream = new StringWriter();
             XmlSerializer serializer = new XmlSerializer(typeof(List<ThreadTracer>));

@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.Serialization;
-using Tracer.exception;
 
 namespace Tracer.tracer.entity
 { 
@@ -14,9 +8,8 @@ namespace Tracer.tracer.entity
             this.Id = id;
             Methods = new Method[]{};
         }
-        public ThreadTracer() {
-            this.Id = new Random(1000).Next();
-            Methods = new Method[]{};
+        public ThreadTracer() 
+        {
         }
         public int Id { get; set; }
         private long _time;

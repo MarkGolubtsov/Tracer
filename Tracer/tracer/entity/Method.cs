@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
-using Tracer.exception;
 
 namespace Tracer.tracer.entity
 {

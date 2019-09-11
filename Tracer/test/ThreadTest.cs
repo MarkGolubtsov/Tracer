@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using NUnit.Framework;
 using Tracer.tracer.entity;
-using Tracer.tracer.output;
 using Tracer.tracer.serilize.impl;
 
 namespace Tracer.tracer.test

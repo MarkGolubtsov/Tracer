@@ -2,7 +2,6 @@
 using System.Threading;
 using NUnit.Framework;
 using Tracer.tracer.entity;
-using Tracer.tracer.output;
 using Tracer.tracer.serilize.impl;
 
 namespace Tracer.tracer.test
@@ -21,7 +20,7 @@ namespace Tracer.tracer.test
             Main2(tracer);
             List<ThreadTracer> tracerResult = tracer.GetResult().GetThreadTracers();
             tracer.GetResult().OutPut(new ConsoleOutPut(), new JsonSerializeImpl());
-            Assert.AreEqual("firstMethod",tracerResult[0].Methods[1].Methods[0].Name);
+            Assert.AreEqual("FirstMethod",tracerResult[0].Methods[1].Methods[0].Name);
         }
         public void Main2(impl.Tracer tracer)
         {
