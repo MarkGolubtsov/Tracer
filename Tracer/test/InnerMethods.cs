@@ -11,41 +11,36 @@ namespace Tracer.tracer.test
     public class InnerMethods
     {
         [Test]
-        public void main()
+        public void Main()
         {
-            impl.Tracer tracer = new impl.Tracer();
+            var tracer = new impl.Tracer();
             tracer.StartTrace();
-            firstMethod(tracer);
+            FirstMethod(tracer);
             Thread.Sleep(100);
             tracer.StopTrace();
-            main2(tracer);
-            List<ThreadTracer> TracerResult = tracer.GetResult().GetThreadTracers();
+            Main2(tracer);
+            List<ThreadTracer> tracerResult = tracer.GetResult().GetThreadTracers();
             tracer.GetResult().OutPut(new ConsoleOutPut(), new JsonSerializeImpl());
-            Assert.AreEqual("firstMethod",TracerResult[0].methods[1].methods[0].name);
+            Assert.AreEqual("firstMethod",tracerResult[0].Methods[1].Methods[0].Name);
         }
-
-        public void main2(impl.Tracer tracer)
+        public void Main2(impl.Tracer tracer)
         {
             tracer.StartTrace();
             Thread.Sleep(10);
             tracer.StopTrace();
         }
-
-        public void firstMethod(impl.Tracer tracer)
+        public void FirstMethod(impl.Tracer tracer)
         {
             tracer.StartTrace();
             Thread.Sleep(100);
-            secondMethod(tracer);
+            SecondMethod(tracer);
             tracer.StopTrace();
         }
-
-        public void secondMethod(impl.Tracer tracer)
+        public void SecondMethod(impl.Tracer tracer)
         {
             tracer.StartTrace();
             Thread.Sleep(120);
             tracer.StopTrace();
         }
-
-
     }
 }

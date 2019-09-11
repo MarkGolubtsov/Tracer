@@ -3,7 +3,7 @@ using Tracer.tracer.entity;
 
 namespace Tracer.tracer.serilize
 {
-    public interface SerializeTracerResult
+    public interface ISerializeTracerResult
     {
         string getString(List<ThreadTracer> list);
     }

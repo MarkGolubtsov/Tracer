@@ -20,6 +20,7 @@ namespace Tracer.tracer.test
             tracer.StopTrace();
             Thread thread = new Thread(new ParameterizedThreadStart(Do1));
             thread.Start(tracer);
+            thread.Join();
             List<ThreadTracer> TracerResult = tracer.GetResult().GetThreadTracers();
             tracer.GetResult().OutPut(new ConsoleOutPut(), new JsonSerializeImpl());
             Assert.AreEqual(2,TracerResult.Count);

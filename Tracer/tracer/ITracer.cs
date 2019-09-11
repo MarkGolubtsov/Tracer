@@ -6,6 +6,6 @@ namespace Tracer.tracer
     {
         void StartTrace();
         void StopTrace();
-        ResultTrace GetResult();
+        IResultTrace GetResult();
     }
 }

@@ -13,103 +13,75 @@ namespace Tracer.tracer.impl
 {
     public class Tracer : ITracer
     {
-        private static ConcurrentQueue<Thread> threadsAll = new ConcurrentQueue<Thread>();
-        
-        private Thread mainThread;
-        private ConcurrentDictionary<int, ConcurrentStack<Method>> runThreads;
-        private ConcurrentDictionary<int, ConcurrentStack<Method>>  stopThreadMethod;
+        private ConcurrentDictionary<int, ConcurrentStack<Method>> _runThreads;
+        private ConcurrentDictionary<int, ConcurrentStack<Method>>  _stopThread;
         public Tracer()
         {
-            mainThread =Thread.CurrentThread;
-            runThreads = new ConcurrentDictionary<int, ConcurrentStack<Method>>();
-            stopThreadMethod = new ConcurrentDictionary<int,ConcurrentStack<Method>>();
-        }
-        private void addThreadInQueue(Thread thread)
-        {
-            int id = thread.ManagedThreadId;
-            if (!runThreads.ContainsKey(id))
-            {
-                if (id!=mainThread.ManagedThreadId)
-                {
-                    threadsAll.Enqueue(thread);
-                }
-                
-            }
+            _runThreads = new ConcurrentDictionary<int, ConcurrentStack<Method>>();
+            _stopThread = new ConcurrentDictionary<int,ConcurrentStack<Method>>();
         }
         public void StartTrace()
         {
             Thread currentThread=Thread.CurrentThread;
             int id = currentThread.ManagedThreadId;
-            addThreadInQueue(currentThread);
-            ConcurrentStack<Method> stack = runThreads.GetOrAdd(id, new ConcurrentStack<Method>());
-            StackTrace stackTrace = new StackTrace(true);
+            ConcurrentStack<Method> stack = _runThreads.GetOrAdd(id, new ConcurrentStack<Method>());
+            var stackTrace = new StackTrace(true);
             StackFrame[] stackFrames = stackTrace.GetFrames();
-            StackFrame stackFrame = stackFrames[1];
+            var stackFrame = stackFrames[1];
             
             string name = stackFrame.GetMethod().Name;
-            string methodClass = getClassName(stackFrame);
+            string methodClass = GetClassName(stackFrame);
             Method method = new Method(name, methodClass);
             stack.Push(method);
-            method.startTimer();
+            method.StartTimer();
         }
 
         public void StopTrace()
         {
-            Stopwatch start = new Stopwatch();
-            int id = Thread.CurrentThread.ManagedThreadId; 
-            ConcurrentStack<Method> stackRun = runThreads.GetOrAdd(id, new ConcurrentStack<Method>());
-            Method method;
-            if (!stackRun.TryPop(out method))
+            var start = new Stopwatch();
+            var id = Thread.CurrentThread.ManagedThreadId; 
+            ConcurrentStack<Method> stackRun = _runThreads.GetOrAdd(id, new ConcurrentStack<Method>());
+            if (!stackRun.TryPop(out var method))
             {
                 throw new StopException("You need to start  before you stop!!");
             }
             method.stopTimer();
-            method.balanceTime(start.ElapsedMilliseconds);
-            ConcurrentStack<Method> stackStop = stopThreadMethod.GetOrAdd(id, new ConcurrentStack<Method>());
-            Method parent;
-            if (stackRun.TryPeek(out parent)) {
-                parent.addMethod(method); 
+            method.BalanceTime(start.ElapsedMilliseconds);
+            ConcurrentStack<Method> stackStop = _stopThread.GetOrAdd(id, new ConcurrentStack<Method>());
+            if (stackRun.TryPeek(out var parent)) {
+                parent.AddMethod(method); 
             } else {
                 stackStop.Push(method);
             }
-            
         }
         
 
-        public ResultTrace GetResult() {
-            List<ThreadTracer> resultTracers = getCloneThreadTracers();
-            ResultTrace resultTrace = new ResultTraceByMark(resultTracers);
+        public IResultTrace GetResult() {
+            List<ThreadTracer> resultTracers = GetCloneThreadTracers();
+            ResultTrace resultTrace = new ResultTrace(resultTracers);
             return resultTrace;
         }
-        
-        private List<ThreadTracer> getCloneThreadTracers()
+        private List<ThreadTracer> GetCloneThreadTracers()
         {
-            joinAllThread();
             List<ThreadTracer> clone = new List<ThreadTracer>();
-            ICollection<int> threadsMethod = stopThreadMethod.Keys;
+            ICollection<int> threadsMethod = _stopThread.Keys;
             foreach (var id in threadsMethod)
             {
                 ThreadTracer thread = new ThreadTracer(id);
-                ConcurrentStack<Method> methods = stopThreadMethod.GetOrAdd(id, new ConcurrentStack<Method>());
+                ConcurrentStack<Method> methods = _stopThread.GetOrAdd(id, new ConcurrentStack<Method>());
                 thread.AddMethods(methods.ToArray());
-                clone.Add(thread.clone());
+                clone.Add(thread.Clone());
             }
             return clone;
         }
-
-        private void joinAllThread()
+        private  string GetClassName(StackFrame stackFrame)
         {
-            foreach (var t in threadsAll)
+            var declaringType = stackFrame.GetMethod().DeclaringType;
+            if (declaringType != null) return declaringType.ToString();
+            else
             {
-                t.Join();
+                return "";
             }
-        }
-        
-        private  string getClassName(StackFrame stackFrame) {
-            string fullClassName = stackFrame.GetFileName();
-            return fullClassName.Substring(fullClassName.LastIndexOf("\\")+1,
-                fullClassName.LastIndexOf(".", StringComparison.Ordinal) - fullClassName.LastIndexOf("\\", StringComparison.Ordinal)-1);
-            
         }
         
         

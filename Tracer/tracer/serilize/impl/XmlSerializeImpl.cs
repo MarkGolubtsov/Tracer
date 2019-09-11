@@ -5,7 +5,7 @@ using Tracer.tracer.entity;
 
 namespace Tracer.tracer.serilize.impl
 {
-    public class XmlSerializeImpl : SerializeTracerResult
+    public class XmlSerializeImpl : ISerializeTracerResult
     {
         public  XmlSerializeImpl(){}
         public string getString(List<ThreadTracer> list)

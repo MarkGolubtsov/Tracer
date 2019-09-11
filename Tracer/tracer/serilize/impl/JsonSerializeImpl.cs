@@ -6,7 +6,7 @@ using Tracer.tracer.entity;
 
 namespace Tracer.tracer.serilize.impl
 {
-    public class JsonSerializeImpl : SerializeTracerResult
+    public class JsonSerializeImpl : ISerializeTracerResult
     {
         public string getString(List<ThreadTracer> list)
         {

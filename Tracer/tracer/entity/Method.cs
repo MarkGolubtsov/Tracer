@@ -13,53 +13,51 @@ namespace Tracer.tracer.entity
     {
         public Method(string name,string methodClass)
         {
-            this.methodClass = methodClass;
-            stopwatch=new Stopwatch();
-            this.name = name;
-            methods = new List<Method>();
+            this.MethodClass = methodClass;
+            Stopwatch=new Stopwatch();
+            this.Name = name;
+            Methods = new List<Method>();
         }
         public Method()
         {
-            this.methodClass = "";
-            stopwatch=new Stopwatch();
-            this.name = "";
-            methods = new List<Method>();}
-        public long time { get; set; }
-
-        public void  balanceTime(long delete)
+            this.MethodClass = "";
+            Stopwatch=new Stopwatch();
+            this.Name = "";
+            Methods = new List<Method>();}
+        public long Time { get; private set; }
+        public void  BalanceTime(long delete)
         {
-            time = time - delete;
+            Time = Time - delete;
         }
 
-        public void startTimer()
+        public void StartTimer()
         {
-            stopwatch.Start();
+            Stopwatch.Start();
         }
 
-        public string methodClass { get; set; }
-        public string name { get; set; }
-        private Stopwatch stopwatch { get;}
-        public List<Method> methods { get; set; }
-
-        public void addMethod(Method method)
+        public string MethodClass { get; set; }
+        public string Name { get; set; }
+        private Stopwatch Stopwatch { get;}
+        public List<Method> Methods { get; set; }
+        public void AddMethod(Method method)
         {
-            methods.Add(method);
+            Methods.Add(method);
         }
 
         public Method getMethods()
         {
-            Method method = new Method(this.name,this.methodClass);
-            method.time = this.time;
-            foreach (var innerMethod in this.methods)
+            Method method = new Method(this.Name,this.MethodClass);
+            method.Time = this.Time;
+            foreach (var innerMethod in this.Methods)
             {
-                method.addMethod(innerMethod.getMethods());
+                method.AddMethod(innerMethod.getMethods());
             }
             return method;
         }
         public void stopTimer()
         {
-            stopwatch.Stop();
-            time = stopwatch.ElapsedMilliseconds;
+            Stopwatch.Stop();
+            Time = Stopwatch.ElapsedMilliseconds;
            
         }
     }

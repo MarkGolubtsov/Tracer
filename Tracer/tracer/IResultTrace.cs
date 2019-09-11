@@ -7,9 +7,9 @@ using Tracer.tracer.serilize;
 
 namespace Tracer.tracer
 {
-    public interface ResultTrace
+    public interface IResultTrace
     {
-        void OutPut(OutPutTracerResult outPutTracerResult, SerializeTracerResult serializeTracerResult);
+        void OutPut(IOutPutTracerResult outPutTracerResult, ISerializeTracerResult serializeTracerResult);
         List<ThreadTracer> GetThreadTracers();
     }
 }

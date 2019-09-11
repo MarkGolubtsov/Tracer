@@ -1,6 +1,6 @@
 ﻿namespace Tracer.tracer.output
 {
-    public interface OutPutTracerResult
+    public interface IOutPutTracerResult
     {
         void output(string result);
     }

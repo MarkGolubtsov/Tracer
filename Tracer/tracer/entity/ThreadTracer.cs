@@ -11,40 +11,36 @@ namespace Tracer.tracer.entity
     [Serializable]
     public class ThreadTracer {
         public ThreadTracer(int id) {
-            this.id = id;
-            methods = new Method[]{};
+            this.Id = id;
+            Methods = new Method[]{};
         }
         public ThreadTracer() {
-            this.id = new Random(1000).Next();
-            methods = new Method[]{};
+            this.Id = new Random(1000).Next();
+            Methods = new Method[]{};
         }
-        
-       public int id { get; set; }
-       
-       private long time;
+        public int Id { get; set; }
+        private long _time;
        public long Time
        {
            get
            {
                long res = 0;
-               foreach (var method in methods) { 
-                   res = res + method.time;
+               foreach (var method in Methods) { 
+                   res = res + method.Time;
                }
                return res; 
            }
            set {
-               time = value;
+               _time = value;
            }
        }
-       
-        public Method[] methods { get; set; }
-        
-        public ThreadTracer clone()
+       public Method[] Methods { get; set; }
+       public ThreadTracer Clone()
         {
-            ThreadTracer threadTracer = new ThreadTracer(this.id);
-            Method[] clonedMethods= new Method[methods.Length];
+            ThreadTracer threadTracer = new ThreadTracer(this.Id);
+            Method[] clonedMethods= new Method[Methods.Length];
             int i=0;
-            foreach (var threadMethod in this.methods)
+            foreach (var threadMethod in this.Methods)
             {
                 clonedMethods[i] = threadMethod.getMethods();
                 i++;
@@ -53,7 +49,7 @@ namespace Tracer.tracer.entity
             return threadTracer;
         }
          public void AddMethods(Method[] methods) {
-             this.methods = methods;
+             this.Methods = methods;
          }
          
     }
