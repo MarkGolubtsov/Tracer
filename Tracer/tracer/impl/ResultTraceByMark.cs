@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using NUnit.Framework;
 using Tracer.tracer.entity;
 using Tracer.tracer.output;
 using Tracer.tracer.serilize;
@@ -19,6 +20,11 @@ namespace Tracer.tracer.impl
         public void OutPut(OutPutTracerResult outPutTracerResult, SerializeTracerResult serializeTracerResult)
         {
             outPutTracerResult.output(serializeTracerResult.getString(list));
+        }
+
+        public List<ThreadTracer> GetThreadTracers()
+        {
+            return list;
         }
     }
 }

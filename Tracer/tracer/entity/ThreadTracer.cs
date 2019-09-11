@@ -39,8 +39,6 @@ namespace Tracer.tracer.entity
        
         public Method[] methods { get; set; }
         
-  
-
         public ThreadTracer clone()
         {
             ThreadTracer threadTracer = new ThreadTracer(this.id);
