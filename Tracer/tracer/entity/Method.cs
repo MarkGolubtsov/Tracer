@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Tracer.exception;
 
@@ -34,10 +35,11 @@ namespace Tracer.tracer.entity
         {
             stopwatch.Start();
         }
+
         public string methodClass { get; set; }
         public string name { get; set; }
         private Stopwatch stopwatch { get;}
-        private List<Method> methods { get; set; }
+        public List<Method> methods { get; set; }
 
         public void addMethod(Method method)
         {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using Tracer.exception;
 
 namespace Tracer.tracer.entity
@@ -18,12 +19,9 @@ namespace Tracer.tracer.entity
             methods = new Method[]{};
         }
         
-
        public int id { get; set; }
-        
-         
+       
        private long time;
- 
        public long Time
        {
            get

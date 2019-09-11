@@ -26,7 +26,7 @@ namespace Tracer
             Thread.Sleep(100);
             tracer.StopTrace();
             ResultTrace resultTrace = tracer.GetResult();
-            resultTrace.OutPut(new FileOutPut(), new JsonSerializeImpl());
+            resultTrace.OutPut(new ConsoleOutPut(),  new JsonSerializeImpl());
         }
     }
 }
