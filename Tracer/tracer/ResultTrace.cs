@@ -1,12 +1,11 @@
 ﻿using System;
+using Tracer.tracer.output;
+using Tracer.tracer.serilize;
 
 namespace Tracer.tracer
 {
     public interface ResultTrace
     {
-        void WriteXmlInFile(string nameFile);
-        void WriteXmlInJson(string nameFile)
-        string getResultTraceInJson();
-        string getResultTraceInXml();
+        void OutPut(OutPutTracerResult outPutTracerResult, SerializeTracerResult serializeTracerResult);
     }
 }

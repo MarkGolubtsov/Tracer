@@ -2,10 +2,12 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Xml.Serialization;
 using Tracer.exception;
 
 namespace Tracer.tracer.entity
 {
+    [Serializable]
     public class Method
     {
         public Method(string name,string methodClass)
@@ -15,6 +17,12 @@ namespace Tracer.tracer.entity
             this.name = name;
             methods = new List<Method>();
         }
+        public Method()
+        {
+            this.methodClass = "";
+            stopwatch=new Stopwatch();
+            this.name = "";
+            methods = new List<Method>();}
         public long time { get; set; }
 
         public void  balanceTime(long delete)
@@ -26,8 +34,8 @@ namespace Tracer.tracer.entity
         {
             stopwatch.Start();
         }
-        private string methodClass { get; set; }
-        private string name { get; set; }
+        public string methodClass { get; set; }
+        public string name { get; set; }
         private Stopwatch stopwatch { get;}
         private List<Method> methods { get; set; }
 
@@ -39,6 +47,7 @@ namespace Tracer.tracer.entity
         public Method getMethods()
         {
             Method method = new Method(this.name,this.methodClass);
+            method.time = this.time;
             foreach (var innerMethod in this.methods)
             {
                 method.addMethod(innerMethod.getMethods());

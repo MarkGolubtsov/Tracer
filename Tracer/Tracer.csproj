@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="dao" />
+      <Folder Include="data" />
     </ItemGroup>
 
 </Project>

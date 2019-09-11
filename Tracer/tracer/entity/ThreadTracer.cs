@@ -6,28 +6,42 @@ using System.Diagnostics;
 using Tracer.exception;
 
 namespace Tracer.tracer.entity
-{
+{ 
+    [Serializable]
     public class ThreadTracer {
         public ThreadTracer(int id) {
             this.id = id;
             methods = new Method[]{};
         }
+        public ThreadTracer() {
+            this.id = new Random(1000).Next();
+            methods = new Method[]{};
+        }
+        
 
        public int id { get; set; }
         
-        private Method[] methods;
+         
+       private long time;
+ 
+       public long Time
+       {
+           get
+           {
+               long res = 0;
+               foreach (var method in methods) { 
+                   res = res + method.time;
+               }
+               return res; 
+           }
+           set {
+               time = value;
+           }
+       }
+       
+        public Method[] methods { get; set; }
         
-        public long time {
-            get
-            {
-                long res = 0;
-                foreach (var method in methods)
-                {
-                    res = res + method.time;
-                }
-                return res;
-            }
-        }
+  
 
         public ThreadTracer clone()
         {

@@ -24,7 +24,6 @@ namespace Tracer.tracer.impl
             runThreads = new ConcurrentDictionary<int, ConcurrentStack<Method>>();
             stopThreadMethod = new ConcurrentDictionary<int,ConcurrentStack<Method>>();
         }
-
         private void addThreadInQueue(Thread thread)
         {
             int id = thread.ManagedThreadId;
@@ -79,7 +78,7 @@ namespace Tracer.tracer.impl
 
         public ResultTrace GetResult() {
             List<ThreadTracer> resultTracers = getCloneThreadTracers();
-            ResultTrace resultTrace = new ResultTraceByMark();
+            ResultTrace resultTrace = new ResultTraceByMark(resultTracers);
             return resultTrace;
         }
         

@@ -1,25 +1,24 @@
-﻿namespace Tracer.tracer.impl
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+using Tracer.tracer.entity;
+using Tracer.tracer.output;
+using Tracer.tracer.serilize;
+
+namespace Tracer.tracer.impl
 {
     public class ResultTraceByMark:ResultTrace
     {
-        public void WriteXmlInFile(string nameFile)
-        {
-            throw new System.NotImplementedException();
-        }
+        private List<ThreadTracer> list;
 
-        public void WriteXmlInJson(string nameFile)
+        public ResultTraceByMark(List<ThreadTracer> list)
         {
-            throw new System.NotImplementedException();
+            this.list = list;
         }
-
-        public string getResultTraceInJson()
+        public void OutPut(OutPutTracerResult outPutTracerResult, SerializeTracerResult serializeTracerResult)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public string getResultTraceInXml()
-        {
-            throw new System.NotImplementedException();
+            outPutTracerResult.output(serializeTracerResult.getString(list));
         }
     }
 }
